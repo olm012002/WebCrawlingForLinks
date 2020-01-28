@@ -5,8 +5,8 @@ import sys
 
 """
 @author => OLM.
-@version => 1.0
-@date => 27/01/2020
+@version => 1.1
+@date => 28/01/2020
 @objective => Training with bs4.
 @situation => Under development.
 """
