@@ -6,11 +6,11 @@ import sys
 
 """
 @author => OLM.
-@version => 1.0
-@date => 27/01/2020
+@version => 1.1
+@date => 28/01/2020
 @styleCode => PEP-8
 @objective => Training with bs4.
-@situation => Under development.
+@situation => final version 1.1.
 """
 
 
@@ -25,7 +25,7 @@ def checkFields(obj):
     return 0
 
 
-def request(domain, userAgent="", cookie=""):
+def request(domain, userAgent, cookie):
     payload = {"user-agent": userAgent, "cookie": cookie}
     try:
         http = requests.get(domain, headers=payload)
@@ -34,16 +34,20 @@ def request(domain, userAgent="", cookie=""):
     print("\n[!]Please wait...\n")
     if http.status_code == 200:
         print(f"[+]HTTPCODE => {http.status_code} (OK)\n")
-        print(http.text())
+        soup = BeautifulSoup(http.text, "html.parser")
+        for link in soup.find_all("a"):
+            print(link.get("href"))
     elif http.status_code == 302:
         print(f"[!]HTTPCODE => {http.status_code} (REDIRECT)")
-        o = input("[!]Do you want to follow the link? (y/n)")
+        o = input("[!]Do you want to follow the redirect? (y/n)")
         if o.lower() == "y":
             try:
                 http = requests.get(domain, allow_redirects=True)
             except Exception as err:
                 showError(err)
-            print(f"\n{http.text()}")
+            soup = BeautifulSoup(http.text, "html.parser")
+            for link in soup.find_all("a"):
+                print(link.get("href"))
         elif o.lower() == "n":
             print("[!]GOOD BYE")
             sys.exit(0)
@@ -65,4 +69,4 @@ if __name__ == "__main__":
         checkFields(c)
     except KeyboardInterrupt:
         showError("Aborted")
-    request(d, u, c)
+    request("http://" + d, u, c) if "http://" not in d else request(d, u, c)
