@@ -3,13 +3,16 @@ from bs4 import BeautifulSoup
 import requests
 import sys
 
+
 """
 @author => OLM.
-@version => 1.1
-@date => 28/01/2020
+@version => 1.0
+@date => 27/01/2020
+@styleCode => PEP-8
 @objective => Training with bs4.
 @situation => Under development.
 """
+
 
 def showError(err):
     print(f"\n\n[!]ERROR => {err}")
@@ -22,7 +25,7 @@ def checkFields(obj):
     return 0
 
 
-def request(domain, userAgent = "", cookie = ""):
+def request(domain, userAgent="", cookie=""):
     payload = {"user-agent": userAgent, "cookie": cookie}
     try:
         http = requests.get(domain, headers=payload)
