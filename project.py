@@ -16,11 +16,17 @@ def showError(err):
     sys.exit(1)
 
 
+def checkFields(obj):
+    if len(obj) < 1:
+        showError("The field cannot be empty")
+    return 0
+
+
 def request(domain, userAgent = "", cookie = ""):
     payload = {"user-agent": userAgent, "cookie": cookie}
     try:
         http = requests.get(domain, headers=payload)
-    except requests.ConnectionError as err:
+    except Exception as err:
         showError(err)
     print("\n[!]Please wait...\n")
     if http.status_code == 200:
@@ -32,7 +38,7 @@ def request(domain, userAgent = "", cookie = ""):
         if o.lower() == "y":
             try:
                 http = requests.get(domain, allow_redirects=True)
-            except requests.ConnectionError as err:
+            except Exception as err:
                 showError(err)
             print(f"\n{http.text()}")
         elif o.lower() == "n":
@@ -43,12 +49,17 @@ def request(domain, userAgent = "", cookie = ""):
     elif http.status_code == 404:
         print(f"[-]HTTPCODE => {http.status_code} (NOT FOUND)")
         sys.exit(1)
+    return 0
+
 
 if __name__ == "__main__":
     try:
         d = input("[!]DOMAIN => ")
+        checkFields(d)
         u = input("[!]USERAGENT => ")
+        checkFields(u)
         c = input("[!]COOKIE => ")
-    except:
+        checkFields(c)
+    except KeyboardInterrupt:
         showError("Aborted")
     request(d, u, c)
