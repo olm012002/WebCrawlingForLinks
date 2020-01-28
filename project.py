@@ -22,7 +22,6 @@ def showError(err):
 def checkFields(obj):
     if len(obj) < 1:
         showError("The field cannot be empty")
-    return 0
 
 
 def request(domain, userAgent, cookie):
