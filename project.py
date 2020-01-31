@@ -9,7 +9,7 @@ import sys
 @version => 1.1
 @date => 28/01/2020
 @styleCode => PEP-8
-@objective => Training with bs4.
+@objective => Training with requests, bs4.
 @situation => final version 1.1.
 """
 
